@@ -29,7 +29,7 @@ namespace prak
             CreateMainMenu();
             tabControl = new TabControl();
             tabControl.Dock = DockStyle.Fill;
-            CreateTablePrep();
+            CreateTablePrep();//создание и заполнение таблицы Препараты
             CreateTableZak();
             CreateTableSel();
             this.Controls.Add(tabControl);

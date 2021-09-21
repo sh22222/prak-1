@@ -13,15 +13,15 @@ namespace prak
     public partial class Form2 : Form
     {
         DataGridView dataGridView1;
-        public Form2(List<string>[]list, int index)
+        public Form2(List<string>[]list, int index)//массив списков, размер этого массива
         {
             InitializeComponent();
             this.Text = "";
 
             dataGridView1 = new DataGridView();
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.ReadOnly = true;
-
+            dataGridView1.Dock = DockStyle.Fill;//заполнение по всей форме
+            dataGridView1.ReadOnly = true;//только чтение
+            //создание колонок
             var dataGridViewColumn1 = new DataGridViewColumn();
             dataGridViewColumn1.HeaderText = "Препарат";
             dataGridViewColumn1.Name = "prep";
@@ -38,6 +38,7 @@ namespace prak
 
             bool pr = true;
             int j = 0, k = 0;
+            //заполнение таблицы
             while (pr)
             {
                 for (int n = 0; n < (list[index].Count - 1)/2; ++n, j += 2)

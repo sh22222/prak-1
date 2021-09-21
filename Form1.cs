@@ -29,14 +29,14 @@ namespace prak
             CreateMainMenu();
             tabControl = new TabControl();
             tabControl.Dock = DockStyle.Fill;
-            CreateTablePrep();
-            CreateTableZak();
-            CreateTableSel();
+            CreateTablePrep();//создание таблицы Препараты
+            CreateTableZak();//создание таблицы Закупки
+            CreateTableSel();//создание таблицы купленных препаратов
             this.Controls.Add(tabControl);
-            tabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDown_F2);
+            tabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDown_F2);//событие на нажатие кнопки F2 для последней таблицы
 
         }
-        private void CreateMainMenu()
+        private void CreateMainMenu()//создание главного меню
         {
             mainMenu1 = new MainMenu();
 
@@ -51,8 +51,8 @@ namespace prak
         {
             dataGridView1 = new DataGridView();
             dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.ReadOnly = true;//доступно только чтение
+            dataGridView1.RowHeadersVisible = false;//убираем пустой столбец
             //создаем колонки
             var dataGridViewColumn1 = new DataGridViewColumn();
             dataGridViewColumn1.HeaderText = "Код препарата";
@@ -119,7 +119,7 @@ namespace prak
                 int row = 0;
                 while ((str = streamReader.ReadLine()) != null)
                 {
-                    dataGridView1.Rows.Add();
+                    dataGridView1.Rows.Add();//добавляем строку
                     string[] strN = str.Split(';');
                     dataGridView1.Rows[row].Cells["code"].Value = strN[0];
                     dataGridView1.Rows[row].Cells["name"].Value = strN[1];
@@ -143,13 +143,14 @@ namespace prak
             tabPage1.Controls.Add(dataGridView1);
             tabControl.TabPages.Add(tabPage1);
         }
+        //добавление таблицы Закупки
         private void CreateTableZak()
         {
             dataGridView2 = new DataGridView();
             dataGridView2.Dock = DockStyle.Fill;
             dataGridView2.ReadOnly = true;
             dataGridView2.RowHeadersVisible = false;
-
+            //добавляем колонки
             var dataGridViewColumn1 = new DataGridViewColumn();
             dataGridViewColumn1.HeaderText = "Код договора";
             dataGridViewColumn1.Name = "codeD";
@@ -216,18 +217,19 @@ namespace prak
             {
                 MessageBox.Show(e.Message);
             }
-
+            //добавление TabPage
             tabPage2 = new TabPage("Закупка");
             tabPage2.Controls.Add(dataGridView2);
             tabControl.TabPages.Add(tabPage2);
         }
+        //доавление таблицы купленных препаратов
         private void CreateTableSel()
         {
             dataGridView3 = new DataGridView();
-            dataGridView3.Dock = DockStyle.Fill;
-            dataGridView3.ReadOnly = true;
-            dataGridView3.RowHeadersVisible = false;
-
+            dataGridView3.Dock = DockStyle.Fill;//заполнение datagridview на всю ширину
+            dataGridView3.ReadOnly = true;//только чтение
+            dataGridView3.RowHeadersVisible = false;//убираем пустой столбец
+            //создание колонок
             var dataGridViewColumn1 = new DataGridViewColumn();
             dataGridViewColumn1.HeaderText = "№ чека";
             dataGridViewColumn1.Name = "receipt";
@@ -255,14 +257,14 @@ namespace prak
             dataGridViewColumn4.CellTemplate = new DataGridViewTextBoxCell();
             dataGridViewColumn4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView3.Columns.Add(dataGridViewColumn4);
-            
+            //заполнение таблицы
             try
             {
                 StreamReader streamReader = new StreamReader("..\\..\\files\\receipt.txt", Encoding.UTF8);
                 string str;
                 int row = 0, i0 = 0;
                 int rows = System.IO.File.ReadAllLines("..\\..\\files\\receipt.txt").Length;
-                recList = new List<string>[rows];
+                recList = new List<string>[rows];//массив списков, содержащий купленные препараты в каждом чеке
                 while ((str = streamReader.ReadLine()) != null)
                 {
                     dataGridView3.Rows.Add();
@@ -271,7 +273,7 @@ namespace prak
                     dataGridView3.Rows[row].Cells["dateOfSale"].Value = strN[1];
                     dataGridView3.Rows[row].Cells["time"].Value = strN[2];
                     dataGridView3.Rows[row].Cells["sum"].Value = strN[3];
-                    recList[i0] = new List<string>();
+                    recList[i0] = new List<string>();//определенный чек с купленными препаратами
                     for (int i = 4; i < strN.Length; i++) 
                     {
                         recList[i0].Add(strN[i]);
@@ -300,11 +302,13 @@ namespace prak
                 f2.Show();
             }
         } 
+        //запрос: закупки по дате
         private void ZakPoDate(object sender, EventArgs e)
         {
             Form3 f3 = new Form3();
             f3.Show();
         }
+        //запрос: поиск препарата по коду или наименованию
         private void Poisk(object sender, EventArgs e)
         {
             Form4 f4 = new Form4();

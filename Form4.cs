@@ -26,10 +26,10 @@ namespace prak
 
             this.Width = 1000;
             this.Height = 110;
-            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;//фиксируем форму
             this.MaximizeBox = false;
             this.Text = "Писк препарата по коду или названию";
-
+            //добавляем textbox, button, datagridview
             tb1 = new TextBox();
             tb1.Location = new Point(10, 10);
             tb1.Width = 150;
@@ -42,7 +42,7 @@ namespace prak
             bt1.Height = 23;
             this.Controls.Add(bt1);
 
-            bt1.Click += new EventHandler(bt_click);
+            bt1.Click += new EventHandler(bt_click);//событие нажатия кнопки
 
             dataGridView1 = new DataGridView();
             dataGridView1.Location = new Point(170, 10);
@@ -112,6 +112,7 @@ namespace prak
             this.Controls.Add(dataGridView1);
 
         }
+        //событие нажатия кнопки
         public void bt_click(object sender, EventArgs eventArgs)
         {
             string s = tb1.Text;
@@ -124,7 +125,7 @@ namespace prak
                 {
                     dataGridView1.Rows.Add();
                     string[] strN = str.Split(';');
-                    if (s.CompareTo(strN[1]) == 0 || s.CompareTo(strN[0]) == 0)
+                    if (s.CompareTo(strN[1]) == 0 || s.CompareTo(strN[0]) == 0)//если найдено совпаденные с введенным кодом или названием  
                     {
                         dataGridView1.Rows[row].Cells["code"].Value = strN[0];
                         dataGridView1.Rows[row].Cells["name"].Value = strN[1];
@@ -140,7 +141,7 @@ namespace prak
                 }
                 streamReader.Close();
                 dataGridView1.Rows[0].Height = 26;
-                dataGridView1.Rows.Remove(dataGridView1.Rows[1]);
+                dataGridView1.Rows.Remove(dataGridView1.Rows[1]);//удаляем пустую строку
             }
             catch (Exception e)
             {

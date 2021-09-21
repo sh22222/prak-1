@@ -28,10 +28,10 @@ namespace prak
 
             this.Width = 100;
             this.Height = 150;
-            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;//фиксированное окно
             this.MaximizeBox = false;
             this.Text = "Поиск по дате";
-
+            //создайем label, textbox, button
             lb1 = new Label();
             lb1.Text = "Введите дату\n(dd.MM.yyyy)";
             lb1.Location = new Point(10, 5);
@@ -50,23 +50,23 @@ namespace prak
             bt1.Width = 100;
             bt1.Height = 30;
             bt1.Text = "Выполнить";
-            bt1.Click += new EventHandler(this.click_b);
+            bt1.Click += new EventHandler(this.click_b);//событие нажатия кнопки
             this.Controls.Add(bt1);
-            
-
         }
+        
         private void click_b(object sender, EventArgs ev)
         {
-            string d = tb1.Text;
+            string d = tb1.Text;//считываем введенное
             dt = new DateTime();
-            if (DateTime.TryParseExact(d, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            if (DateTime.TryParseExact(d, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))//проверка на ввод именно даты
             {
+            //очищаем форму и переопределяем параметры
                 this.Controls.Clear();
                 this.Width = 500;
                 this.Height = 300;
                 this.MaximizeBox = true;
                 this.FormBorderStyle = FormBorderStyle.Sizable;
-
+                //создаем колонки
                 dataGridView1 = new DataGridView();
                 dataGridView1.Dock = DockStyle.Fill;
                 dataGridView1.ReadOnly = true;
@@ -113,7 +113,7 @@ namespace prak
                 dataGridViewColumn6.CellTemplate = new DataGridViewTextBoxCell();
                 dataGridViewColumn6.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridView1.Columns.Add(dataGridViewColumn6);
-
+                //заполняем таблицу
                 try
                 {
                     StreamReader streamReader = new StreamReader(@"C:\Users\shage\Desktop\c#\prak\files\zak.txt", Encoding.UTF8);
@@ -123,11 +123,10 @@ namespace prak
 
                     while ((str = streamReader.ReadLine()) != null)
                     {
-
                         string[] strN = str.Split(';');
                         DateTime dt2 = new DateTime();
-                        dt2 = DateTime.ParseExact(strN[1], dateFormat, cultureInfo);
-                        if (dt.CompareTo(dt2) == 0)
+                        dt2 = DateTime.ParseExact(strN[1], dateFormat, cultureInfo);//перевод в формат даты
+                        if (dt.CompareTo(dt2) == 0)//проверка на равенство дат
                         {
                             dataGridView1.Rows.Add();
                             dataGridView1.Rows[row].Cells["codeD"].Value = strN[0];
@@ -138,7 +137,7 @@ namespace prak
                             dataGridView1.Rows[row].Cells["quant"].Value = strN[5];
                             ++row;
                         }
-                        else if (dt.CompareTo(dt2) > 0)
+                        else if (dt.CompareTo(dt2) > 0)//если введенная дата произошла позже, чем считанная - смысла в проверке нет
                         {
                             break;
                         }
@@ -153,7 +152,7 @@ namespace prak
 
                 this.Controls.Add(dataGridView1);
             }
-            else
+            else//если введена не дата - очищаем textbox
             {
                 tb1.Text = "";
             }
